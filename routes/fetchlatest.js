@@ -36,7 +36,7 @@ function updateFile(driver, stableVersion, betaVersion) {
     console.log(link);
     var finalLink = link.concat(stableVersion, "/edgedriver_win32.zip");
     console.log(finalLink);
-    latest.chromeLink = finalLink;
+    latest.edgeLink = finalLink;
   }
   let jsonString = JSON.stringify(latest);
   fs.writeFile("./config/latest.json", jsonString, (err) => {
