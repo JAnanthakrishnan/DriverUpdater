@@ -1,0 +1,15 @@
+{
+    "chromedriver":"https://chromedriver.chromium.org/home",
+    "chromeStableString":"Latest stable release",
+    "chromeBetaString":"Latest beta release",
+    "geckodriver":"https://github.com/mozilla/geckodriver/releases/latest",
+    "geckoString": "/mozilla/geckodriver/tree",
+    "edgedriver":"https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/",
+    "edgeString": "stable Channel",
+    "chromelink": "https://chromedriver.storage.googleapis.com/",
+    "geckoLink": "https://github.com/mozilla/geckodriver/releases/download/",
+    "edgeLink" : "https://msedgedriver.azureedge.net/",
+    "chromePath":"",
+    "edgePath":"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    "geckoPath":"C:\\Program Files\\Mozilla Firefox\\Firefox.exe"
+}
