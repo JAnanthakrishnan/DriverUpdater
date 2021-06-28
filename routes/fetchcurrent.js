@@ -47,12 +47,16 @@ function defaultversion() {
   return obj;
 }
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
+  const { ip, username, password } = req.body;
+  console.log(ip);
+  console.log(username);
+  console.log(password);
   console.log("Loading chrome");
   await connectServer(
-    "40.76.14.74",
-    "thisisadmin",
-    "adminPassword123",
+    ip,
+    username,
+    password,
     22,
     "/Program Files/Google/Chrome/Application/chrome.exe",
     "exe/chrome.exe"
@@ -75,7 +79,9 @@ router.get("/", async (req, res) => {
     "/Program Files (x86)/Mozilla Firefox/firefox.exe",
     "exe/firefox.exe"
   );
-  defaultversion();
+  setTimeout(() => {
+    defaultversion();
+  }, 500);
   console.log("Done");
   res.json(defaultversion());
 });

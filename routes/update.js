@@ -60,50 +60,54 @@ function unzipDriver(url, output) {
   }
 }
 
-router.get("/chrome", async (req, res) => {
+router.post("/chrome", async (req, res) => {
+  const { grid, ip, username, password } = req.body;
   const message = await unzipDriver(
     latestVersions.chromeLink,
     "chromedriver.zip"
   );
   console.log(message);
   const upload = await connectServer(
-    "40.76.14.74",
-    "thisisadmin",
-    "adminPassword123",
+    ip,
+    username,
+    password,
     22,
-    "/Users/thisisadmin/Documents/Grid1/WebDrivers/chromedriver.exe",
+    `/Users/thisisadmin/Documents/${grid}/WebDrivers/chromedriver.exe`,
     "drivers/chromedriver.exe"
   );
   console.log("Done");
   res.send("<h1>ChromeDriver Downloaded and Uploaded</h1>");
 });
 
-router.get("/gecko", async (req, res) => {
+router.post("/gecko", async (req, res) => {
+  const { grid, ip, username, password } = req.body;
   const message = await unzipDriver(
     latestVersions.geckoLink,
     "geckodriver.zip"
   );
   console.log(message);
   const upload = await connectServer(
-    "40.76.14.74",
-    "thisisadmin",
-    "adminPassword123",
+    ip,
+    username,
+    password,
     22,
-    "/Users/thisisadmin/Documents/Grid1/WebDrivers/geckodriver.exe",
+    `/Users/thisisadmin/Documents/${grid}/WebDrivers/geckodriver.exe`,
     "drivers/geckodriver.exe"
   );
   console.log("Done");
   res.send("<h1>Geckodriver Downloaded and Uploaded</h1>");
 });
-router.get("/edge", async (req, res) => {
+
+router.post("/edge", async (req, res) => {
+  const { grid, ip, username, password } = req.body;
   const message = await unzipDriver(latestVersions.edgeLink, "edgedriver.zip");
   console.log(message);
   const upload = await connectServer(
-    "40.76.14.74",
-    "thisisadmin",
-    "adminPassword123",
+    ip,
+    username,
+    password,
     22,
-    "/Users/thisisadmin/Documents/Grid1/WebDrivers/msedgedriver.exe",
+    `/Users/thisisadmin/Documents/${grid}/WebDrivers/msedgedriver.exe`,
     "drivers/msedgedriver.exe"
   );
   console.log("Done");
