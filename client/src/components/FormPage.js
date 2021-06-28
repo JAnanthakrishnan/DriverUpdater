@@ -6,7 +6,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import LinearIndeterminate from "./Loading.js";
@@ -25,12 +25,20 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     minWidth: 120,
     maxWidth: 200,
+    fontFamily: "Raleway",
+    fontStyle: "normal",
+    fontDisplay: "swap",
+    fontWeight: 400,
   },
   textField: {
     display: "flex",
     flexDirection: "row",
     margin: theme.spacing(1),
     minWidth: 120,
+    fontFamily: "Raleway",
+    fontStyle: "normal",
+    fontDisplay: "swap",
+    fontWeight: 400,
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -55,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FormPage({ ip, username, password }) {
+export default function FormPage({ ip, username, password, node }) {
   const classes = useStyles();
   const [successOpen, setSuccessOpen] = React.useState(false);
   const [errorOpen, setErrorOpen] = React.useState(false);
@@ -63,10 +71,11 @@ export default function FormPage({ ip, username, password }) {
   const [loading, setLoading] = React.useState(false);
   const [Browser, setBrowser] = React.useState("");
   const [versions, setVersion] = React.useState({});
-  const [curVersion, setCurrent] = React.useState("x.x.x.x");
+  const [curVersion, setCurrent] = React.useState("Choose config");
   const [latest, setLatest] = React.useState({});
   const [success, setSuccess] = React.useState(false);
-  const [latestVersion, setLatestVersionNumber] = React.useState("x.x.x.x");
+  const [latestVersion, setLatestVersionNumber] =
+    React.useState("Chose Browser");
   const [load, setPageLoading] = React.useState(true);
   const timer = React.useRef();
 
@@ -91,9 +100,7 @@ export default function FormPage({ ip, username, password }) {
         },
       };
       const formData = {
-        ip,
-        username,
-        password,
+        node,
       };
       try {
         const res = await axios.post("/api/fetchcurrent", formData, config);
@@ -113,19 +120,40 @@ export default function FormPage({ ip, username, password }) {
 
   const handleGrid = (event) => {
     setGrid(event.target.value);
+    let ourGrid = ["Grid1", "Grid2"];
+    if (Browser === 1) {
+      setCurrent(versions[ourGrid[event.target.value - 1]].chromeVersion);
+    }
+    if (Browser === 2) {
+      setCurrent(versions[ourGrid[event.target.value - 1]].geckoDriver);
+    }
+    if (Browser === 3) {
+      setCurrent(versions[ourGrid[event.target.value - 1]].edgeVersion);
+    }
   };
   const handleBrowser = (event) => {
+    let ourGrid = ["Grid1", "Grid2"];
+    console.log(versions);
     setBrowser(event.target.value);
     if (event.target.value === 1) {
-      setCurrent(versions.chrome);
+      if (grid !== "") {
+        console.log(versions);
+        setCurrent(versions[ourGrid[grid - 1]].chromeVersion);
+      }
       setLatestVersionNumber(latest.chromeStabledriver);
     }
     if (event.target.value === 2) {
-      setCurrent(versions.firefox);
+      if (grid !== "") {
+        console.log(versions);
+        setCurrent(versions[ourGrid[grid - 1]].geckoDriver);
+      }
       setLatestVersionNumber(latest.geckodriver);
     }
     if (event.target.value === 3) {
-      setCurrent(versions.edge);
+      if (grid !== "") {
+        console.log(versions);
+        setCurrent(versions[ourGrid[grid - 1]].edgeVersion);
+      }
       setLatestVersionNumber(latest.edgedriver);
     }
   };
@@ -146,15 +174,10 @@ export default function FormPage({ ip, username, password }) {
           },
         };
         console.log(Browser);
-        let gridData;
-        if (grid === 1) {
-          gridData = "Grid1";
-        }
-        if (grid === 2) {
-          gridData = "Grid2";
-        }
+        let gridData = ["Grid1", "Grid2"];
         const formData = {
-          grid: gridData,
+          grid: gridData[grid - 1],
+          node,
           ip,
           username,
           password,
@@ -166,11 +189,27 @@ export default function FormPage({ ip, username, password }) {
           await axios.post("/api/update/gecko", formData, config);
         if (Browser === 3)
           await axios.post("/api/update/edge", formData, config);
-        setSuccessOpen(true);
-        timer.current = window.setTimeout(() => {
+
+        // setSuccessOpen(true);
+        // setSuccess(true);
+        // setLoading(false);
+        // timer.current = window.setTimeout(() => {
+        //   window.location.reload();
+        // }, 200);
+
+        const upData = {
+          node,
+        };
+        let res;
+        timer.current = window.setTimeout(async () => {
+          res = await axios.post("/api/fetchcurrent", upData, config);
+          setVersion(res.data);
+          setSuccessOpen(true);
           setSuccess(true);
           setLoading(false);
-        }, 2000);
+          setBrowser("");
+          setCurrent("Choose Config");
+        }, 1000);
       }
     }
   };
@@ -216,7 +255,7 @@ export default function FormPage({ ip, username, password }) {
           <TextField
             disabled
             id="standard-disabled"
-            label="Browser Version"
+            label="Current Version"
             value={curVersion}
             size="medium"
           />

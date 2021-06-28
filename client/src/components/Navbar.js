@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    height: "15vh",
+    height: "10vh",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -31,7 +31,7 @@ export default function ButtonAppBar() {
           <Typography variant="h4" component="h6" className={classes.title}>
             Driver-Updater
           </Typography>
-          <Button color="inherit">Docs</Button>
+          <Button color="inherit">Documentation</Button>
         </Toolbar>
       </AppBar>
     </div>

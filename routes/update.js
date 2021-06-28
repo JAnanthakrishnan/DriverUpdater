@@ -7,7 +7,7 @@ const request = require("request");
 const latestVersions = require("../config/latest.json");
 const AdmZip = require("adm-zip");
 let Client = require("ssh2-sftp-client");
-
+const prevVersion = require("../config/prevVersion.json");
 async function connectServer(
   host,
   username,
@@ -61,7 +61,7 @@ function unzipDriver(url, output) {
 }
 
 router.post("/chrome", async (req, res) => {
-  const { grid, ip, username, password } = req.body;
+  const { grid, node, ip, username, password } = req.body;
   const message = await unzipDriver(
     latestVersions.chromeLink,
     "chromedriver.zip"
@@ -76,11 +76,23 @@ router.post("/chrome", async (req, res) => {
     "drivers/chromedriver.exe"
   );
   console.log("Done");
-  res.send("<h1>ChromeDriver Downloaded and Uploaded</h1>");
+  prevVersion[node][grid].chromeVersion = latestVersions.chromeStabledriver;
+  fs.writeFile(
+    "./config/prevVersion.json",
+    JSON.stringify(prevVersion),
+    (err) => {
+      if (err) {
+        console.log("Error writing file", err);
+      } else {
+        console.log("Successfully wrote file");
+      }
+    }
+  );
+  res.send("Done");
 });
 
 router.post("/gecko", async (req, res) => {
-  const { grid, ip, username, password } = req.body;
+  const { grid, node, ip, username, password } = req.body;
   const message = await unzipDriver(
     latestVersions.geckoLink,
     "geckodriver.zip"
@@ -95,11 +107,23 @@ router.post("/gecko", async (req, res) => {
     "drivers/geckodriver.exe"
   );
   console.log("Done");
-  res.send("<h1>Geckodriver Downloaded and Uploaded</h1>");
+  prevVersion[node][grid].geckoDriver = latestVersions.geckodriver;
+  fs.writeFile(
+    "./config/prevVersion.json",
+    JSON.stringify(prevVersion),
+    (err) => {
+      if (err) {
+        console.log("Error writing file", err);
+      } else {
+        console.log("Successfully wrote file");
+      }
+    }
+  );
+  res.send("Done");
 });
 
 router.post("/edge", async (req, res) => {
-  const { grid, ip, username, password } = req.body;
+  const { grid, node, ip, username, password } = req.body;
   const message = await unzipDriver(latestVersions.edgeLink, "edgedriver.zip");
   console.log(message);
   const upload = await connectServer(
@@ -111,6 +135,18 @@ router.post("/edge", async (req, res) => {
     "drivers/msedgedriver.exe"
   );
   console.log("Done");
-  res.send("<h1>EdgeDriver Downloaded and Uploaded</h1>");
+  prevVersion[node][grid].edgeVersion = latestVersions.edgedriver;
+  fs.writeFile(
+    "./config/prevVersion.json",
+    JSON.stringify(prevVersion),
+    (err) => {
+      if (err) {
+        console.log("Error writing file", err);
+      } else {
+        console.log("Successfully wrote file");
+      }
+    }
+  );
+  res.send("Done");
 });
 module.exports = router;

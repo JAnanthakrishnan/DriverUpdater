@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FormPage from "./FormPage";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
@@ -6,6 +6,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import AdminPage from "./AdminPage";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,12 +54,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function VerticalTabs() {
+export default function VerticalTabs({ index = 0 }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-
+  const [value, setValue] = React.useState(index);
+  useEffect(() => {
+    console.log("index:", index);
+  }, []);
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    localStorage.setItem("tabIndex", newValue);
   };
 
   return (
@@ -73,12 +77,14 @@ export default function VerticalTabs() {
       >
         <Tab label="Node One" {...a11yProps(0)} style={{ margin: "20px" }} />
         <Tab label="Node Two" {...a11yProps(1)} style={{ margin: "20px" }} />
+        <Tab label="Admin " {...a11yProps(0)} style={{ margin: "20px" }} />
       </Tabs>
       <TabPanel value={value} index={0}>
         <FormPage
           ip={"40.76.14.74"}
           username={"thisisadmin"}
           password={"adminPassword123"}
+          node={"Node1"}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
@@ -86,7 +92,11 @@ export default function VerticalTabs() {
           ip={"40.76.14.74"}
           username={"thisisadmin"}
           password={"adminPassword123"}
+          node={"Node2"}
         />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <AdminPage />
       </TabPanel>
     </div>
   );
