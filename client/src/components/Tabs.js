@@ -7,6 +7,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import AdminPage from "./AdminPage";
+import axios from "axios";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,14 +58,29 @@ const useStyles = makeStyles((theme) => ({
 export default function VerticalTabs({ index = 0 }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(index);
+  const [loading, setLoading] = React.useState(true);
+  const [data, setData] = React.useState({});
   useEffect(() => {
+    async function fetchData() {
+      const res = await axios.get("/api/fetchmachine");
+      if (res) {
+        setData(res.data);
+        setLoading(false);
+      }
+      console.log(res.data);
+    }
     console.log("index:", index);
+    fetchData();
+    // eslint-disable-next-line
   }, []);
   const handleChange = (event, newValue) => {
     setValue(newValue);
     localStorage.setItem("tabIndex", newValue);
   };
 
+  if (loading) {
+    return <h1>Loading....</h1>;
+  }
   return (
     <div className={classes.root}>
       <Tabs
@@ -81,17 +97,17 @@ export default function VerticalTabs({ index = 0 }) {
       </Tabs>
       <TabPanel value={value} index={0}>
         <FormPage
-          ip={"40.76.14.74"}
-          username={"thisisadmin"}
-          password={"adminPassword123"}
+          ip={data.node1.ip}
+          username={data.node1.username}
+          password={data.node1.password}
           node={"Node1"}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <FormPage
-          ip={"40.76.14.74"}
-          username={"thisisadmin"}
-          password={"adminPassword123"}
+          ip={data.node2.ip}
+          username={data.node2.username}
+          password={data.node2.password}
           node={"Node2"}
         />
       </TabPanel>

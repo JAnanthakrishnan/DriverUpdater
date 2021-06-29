@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import "./App.css";
 import ButtonAppBar from "./components/Navbar";
 import VerticalTabs from "./components/Tabs";

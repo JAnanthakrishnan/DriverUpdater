@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/fetchcurrent", require("./routes/fetchcurrent"));
 app.use("/api/fetchlatest", require("./routes/fetchlatest"));
 app.use("/api/update", require("./routes/update"));
+app.use("/api/fetchmachine", require("./routes/fetchmachine"));
 
 //serve static assets in production
 if (process.env.NODE_ENV === "production") {

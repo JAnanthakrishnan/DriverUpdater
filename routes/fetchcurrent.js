@@ -1,13 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const admZip = require("adm-zip");
-const axios = require("axios");
-const fs = require("fs");
-const request = require("request");
-const latestVersions = require("../config/latest.json");
-const AdmZip = require("adm-zip");
-let Client = require("ssh2-sftp-client");
-const vi = require("win-version-info");
 const prevVersion = require("../config/prevVersion.json");
 
 router.post("/", async (req, res) => {

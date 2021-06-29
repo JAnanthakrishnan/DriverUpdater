@@ -1,4 +1,4 @@
-import React, { useEffect, version } from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -6,7 +6,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { Button, Grid } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import axios from "axios";
 import LinearIndeterminate from "./Loading.js";
@@ -55,12 +55,12 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     position: "relative",
   },
-  buttonSuccess: {
-    backgroundColor: green[500],
-    "&:hover": {
-      backgroundColor: green[700],
-    },
-  },
+  // buttonSuccess: {
+  //   backgroundColor: green[500],
+  //   "&:hover": {
+  //     backgroundColor: green[700],
+  //   },
+  // },
 }));
 
 export default function FormPage({ ip, username, password, node }) {
@@ -116,6 +116,7 @@ export default function FormPage({ ip, username, password, node }) {
     fetchData();
 
     // console.log("Hello");
+    // eslint-disable-next-line
   }, []);
 
   const handleGrid = (event) => {
