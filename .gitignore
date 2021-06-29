@@ -25,3 +25,6 @@ client/yarn-error.log*
 
 
 #tempStorage
+exe/*
+drivers/*
+temp/*
