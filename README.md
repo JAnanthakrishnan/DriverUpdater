@@ -4,7 +4,7 @@ Support for ChromeDriver, GeckoDriver and EdgeDriver.
 ## Steps:
 1. Head over to [config/machines.json](config/machines.json) to enter the details of your IP Address.
 2. Open [routes/update.js](routes/update.js) and change the download directory accordingly, in line 134,106,75 for the three driver executables. 
-3. If your're using this for the first time, Fill the version of the current drivers you have in [config/prevVersion.json](config/prevVersion.json). The values will be updated automatically everytime you run the application.
+3. If you're using this for the first time, Fill the version of the current drivers you have in [config/prevVersion.json](config/prevVersion.json). The values will be updated automatically everytime you run the application.
 4. run command 
 ```
 npm run dev
