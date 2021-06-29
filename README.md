@@ -7,6 +7,6 @@ Steps:
 3. If your're using this for the first time, Fill the version of the current drivers you have in [config/prevVersion.json](config/prevVersion.json). The values will be updated automatically everytime you run the application.
 4. run command 
 ```
-npm dev start
+npm run dev
 ```
 5. Head over to http://localhost:3000/ (default) to check and update your driver versions.
